@@ -1,6 +1,7 @@
 const Signup: React.FC = () => {
   return (
-    <form className="flex flex-col gap-4 justify-center items-center p-6 w-[50%] shadow-md ">
+    <form className="flex flex-col gap-4 justify-center items-center p-6 w-[50%] shadow-md m-auto mt-6 border rounded-lg  font-Montserrat">
+      <h1 className="text-2xl">Signup</h1>
       <label className="flex flex-col gap-1 justify-start items-start w-full">
         Email:
         <input
