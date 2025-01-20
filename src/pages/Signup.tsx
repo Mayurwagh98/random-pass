@@ -1,14 +1,38 @@
+import axios from "axios";
 import { useRef } from "react";
 
 const Signup: React.FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
+  const firstnameRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const email = emailRef.current?.value;
-    const password = passwordRef.current?.value;
-    console.log(email, password);
+    handleSignup();
+  };
+
+  interface SignupPayloadTypes {
+    firstname: string;
+    email: string;
+    password: string;
+  }
+
+  const handleSignup = async () => {
+    const payload: SignupPayloadTypes = {
+      firstname: firstnameRef.current ? firstnameRef.current.value : "",
+      email: emailRef.current ? emailRef.current.value : "",
+      password: passwordRef.current ? passwordRef.current.value : "",
+    };
+    try {
+      const { data }: any = await axios.post(
+        "http://localhost/5001/signup",
+        payload,
+        {}
+      );
+      console.log(data);
+    } catch (error) {
+      console.log("error:", error);
+    }
   };
 
   return (
@@ -17,6 +41,13 @@ const Signup: React.FC = () => {
       onSubmit={handleSubmit}
     >
       <h1 className="text-2xl text-white">SIGNUP</h1>
+      <input
+        ref={firstnameRef}
+        type="text"
+        className="border-b border-gray-400 bg-transparent w-full p-2 text-white placeholder-gray-300 outline-none focus:border-orange-500"
+        placeholder="Firstname"
+        onChange={() => firstnameRef.current?.value}
+      />
       <input
         ref={emailRef}
         type="email"
