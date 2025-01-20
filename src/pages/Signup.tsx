@@ -8,22 +8,20 @@ const Signup: React.FC = () => {
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const email = emailRef.current?.value;
-    const password = passwordRef.current?.value;
-    console.log(email, password);
+    handleSignup();
   };
 
-  interface signupPayloadTypes {
+  interface SignupPayloadTypes {
     firstname: string;
     email: string;
     password: string;
   }
 
   const handleSignup = async () => {
-    const payload: signupPayloadTypes = {
-      firstname: firstnameRef,
-      email: emailRef,
-      password: passwordRef,
+    const payload: SignupPayloadTypes = {
+      firstname: firstnameRef.current ? firstnameRef.current.value : "",
+      email: emailRef.current ? emailRef.current.value : "",
+      password: passwordRef.current ? passwordRef.current.value : "",
     };
     try {
       const { data }: any = await axios.post(
@@ -45,9 +43,9 @@ const Signup: React.FC = () => {
       <h1 className="text-2xl text-white">SIGNUP</h1>
       <input
         ref={firstnameRef}
-        type="email"
+        type="text"
         className="border-b border-gray-400 bg-transparent w-full p-2 text-white placeholder-gray-300 outline-none focus:border-orange-500"
-        placeholder="Email"
+        placeholder="Firstname"
         onChange={() => firstnameRef.current?.value}
       />
       <input
