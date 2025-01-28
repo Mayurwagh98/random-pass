@@ -4,7 +4,7 @@ import { useRef } from "react";
 const Signup: React.FC = () => {
   const emailRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
-  const firstnameRef = useRef<HTMLInputElement>(null);
+  const nameRef = useRef<HTMLInputElement>(null);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -12,26 +12,29 @@ const Signup: React.FC = () => {
   };
 
   interface SignupPayloadTypes {
-    firstname: string;
+    name: string;
     email: string;
     password: string;
   }
 
   const handleSignup = async () => {
     const payload: SignupPayloadTypes = {
-      firstname: firstnameRef.current ? firstnameRef.current.value : "",
+      name: nameRef.current ? nameRef.current.value : "",
       email: emailRef.current ? emailRef.current.value : "",
       password: passwordRef.current ? passwordRef.current.value : "",
     };
     try {
       const { data }: any = await axios.post(
-        "http://localhost/5001/signup",
+        "http://localhost:5002/v1/signup",
         payload,
         {}
       );
       console.log(data);
-    } catch (error) {
-      console.log("error:", error);
+      alert(data.message);
+      localStorage.setItem("token", data.token);
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.message || 'An error occurred during signup';
+      alert(errorMessage);
     }
   };
 
@@ -42,11 +45,11 @@ const Signup: React.FC = () => {
     >
       <h1 className="text-2xl text-white">SIGNUP</h1>
       <input
-        ref={firstnameRef}
+        ref={nameRef}
         type="text"
         className="border-b border-gray-400 bg-transparent w-full p-2 text-white placeholder-gray-300 outline-none focus:border-orange-500"
-        placeholder="Firstname"
-        onChange={() => firstnameRef.current?.value}
+        placeholder="name"
+        onChange={() => nameRef.current?.value}
       />
       <input
         ref={emailRef}
