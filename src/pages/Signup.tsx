@@ -34,7 +34,7 @@ const Signup: React.FC = () => {
       console.log(data);
       alert(data.message);
       localStorage.setItem("token", data.token);
-      if (data.token) navigate("/");
+      if (data.randomToken) navigate("/");
     } catch (error: any) {
       const errorMessage =
         error.response?.data?.message || "An error occurred during signup";
