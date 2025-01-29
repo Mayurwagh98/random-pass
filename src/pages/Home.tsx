@@ -1,7 +1,47 @@
-import React from "react";
+import axios from "axios";
+import React, { useRef } from "react";
 
 const Home: React.FC = () => {
-  return <div>Home</div>;
+  const [massterPassword, setMasterPassword] = React.useState<string>("");
+  const emailRef = useRef<HTMLInputElement>(null);
+
+  const postMasterPassword = async () => {
+    try {
+      const { data } = await axios.post(
+        `http://localhost:5002/v1/generate-master-password`,
+        {}
+      );
+      console.log("data:", data);
+      setMasterPassword(data.masterPassword);
+    } catch (error) {
+      console.log("error:", error);
+    }
+  };
+
+  const handleEmail = () => {
+    if (emailRef.current) {
+      const value = emailRef.current.value;
+      console.log("Email value:", value);
+    }
+  };
+
+  return (
+    <div className="border border-red-1 w-1/3 min-h-28 flex flex-col justify-center items-center mt-[10%] ml-auto mr-auto">
+      <input
+        placeholder="Enter email"
+        ref={emailRef}
+        onChange={handleEmail}
+        className="p-2 mt-2 mb-2 rounded-sm border border-purple-400 outline-none"
+      />
+      <h1>{massterPassword || "No masster password"}</h1>
+      <button
+        onClick={postMasterPassword}
+        className="bg-purple-400 p-2 rounded-md text-white mt-2"
+      >
+        Generate
+      </button>
+    </div>
+  );
 };
 
 export default Home;
