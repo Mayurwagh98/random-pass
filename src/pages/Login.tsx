@@ -28,9 +28,10 @@ const Login: React.FC = () => {
         payload,
         {}
       );
+      console.log("data:", data);
+      localStorage.setItem("randomToken", data.token);
       alert(data.message);
-      localStorage.setItem("token", data.token);
-      if (data.randomToken) navigate("/");
+      navigate("/");
     } catch (error: any) {
       const errorMessage =
         error.response?.data?.message || "An error occurred during login";

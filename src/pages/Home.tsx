@@ -32,9 +32,8 @@ const Home: React.FC = () => {
   };
 
   const handleLogout = () => {
-    localStorage.removeItem("token");
+    localStorage.removeItem("randomToken");
     setMasterPassword("");
-    navigate("/login");
   };
 
   return (
